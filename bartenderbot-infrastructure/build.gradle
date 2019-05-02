@@ -1,0 +1,4 @@
+dependencies {
+    compile project(":bartenderbot-handlers")
+    compile("com.amazonaws:aws-java-sdk-dynamodb:$awsSdkVersion")
+}

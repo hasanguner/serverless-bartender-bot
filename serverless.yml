@@ -1,0 +1,111 @@
+service: serverless-bartenderbot
+
+provider:
+  profile: aws-personal-account
+  name: aws
+  runtime: java8
+  region: eu-west-1
+  stage: dev
+  memory: 256
+  timeout: 30
+  environment:
+    DYNAMODB_TABLE: Cocktail
+    DYNAMODB_GSI: alcoholTypeCategoryIndex
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - "lambda:InvokeFunction"
+      Resource:
+        - "Fn::Join": [":", ["arn:aws:lambda", {"Ref": "AWS::Region"}, {"Ref": "AWS::AccountId"}, "function:*"]]
+    - Effect: Allow
+      Action:
+        - "dynamodb:Query"
+        - "dynamodb:Scan"
+        - "dynamodb:GetItem"
+        - "dynamodb:PutItem"
+        - "dynamodb:UpdateItem"
+        - "dynamodb:DeleteItem"
+      Resource:
+        - "Fn::Join": [":", ["arn:aws:dynamodb", {"Ref": "AWS::Region"}, {"Ref": "AWS::AccountId"}, "table/${self:provider.environment.DYNAMODB_TABLE}"]]
+    - Effect: Allow
+      Action:
+        - "dynamodb:UpdateItem"
+        - "dynamodb:Query"
+        - "dynamodb:Scan"
+      Resource:
+        - 'Fn::Join':
+            - ':'
+            - - "arn:aws:dynamodb"
+              - Ref: "AWS::Region"
+              - Ref: "AWS::AccountId"
+              - 'Fn::Join':
+                  - ""
+                  - - "table/"
+                    - "${self:provider.environment.DYNAMODB_TABLE}/index/${self:provider.environment.DYNAMODB_GSI}"
+
+package:
+  artifact: bartenderbot-host-lambda/build/libs/bartenderbot-host-lambda-0.0.1-all.jar
+
+functions:
+  lexevent:
+    handler: net.hasanguner.handler.lambda.LexEventsLambdaHandler
+    environment:
+      aws_region: ${self:provider.region}
+
+  createcocktail:
+    handler: net.hasanguner.handler.lambda.CreateCocktailLambdaHandler
+    environment:
+      aws_region: ${self:provider.region}
+    events:
+      - http:
+          path: cocktail/feed
+          method: post
+  getcocktails:
+    handler: net.hasanguner.handler.lambda.GetCocktailsLambdaHandler
+    environment:
+      aws_region: ${self:provider.region}
+    events:
+      - http:
+          path: cocktail/all
+          method: get
+  filtercocktail:
+    handler: net.hasanguner.handler.lambda.FilterCocktailLambdaHandler
+    environment:
+      aws_region: ${self:provider.region}
+    events:
+      - http:
+          path: cocktail/filter
+          method: post
+          cors: true
+
+resources:
+  Resources:
+    CocktailTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.environment.DYNAMODB_TABLE}
+        AttributeDefinitions:
+          - AttributeName: cocktailId
+            AttributeType: S
+          - AttributeName: alcoholType
+            AttributeType: S
+          - AttributeName: category
+            AttributeType: S
+        KeySchema:
+          - AttributeName: cocktailId
+            KeyType: HASH
+        GlobalSecondaryIndexes:
+          - IndexName: ${self:provider.environment.DYNAMODB_GSI}
+            KeySchema:
+              - AttributeName: alcoholType
+                KeyType: HASH
+              - AttributeName: category
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
+            ProvisionedThroughput:
+              ReadCapacityUnits: 1
+              WriteCapacityUnits: 1
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1

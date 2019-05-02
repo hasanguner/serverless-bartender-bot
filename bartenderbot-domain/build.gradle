@@ -1,0 +1,6 @@
+dependencies {
+    compile project(":bartenderbot-common")
+    compile project(":bartenderbot-abstractions-lex")
+    compile("com.github.hasanguner:state-machine:$stateMachineVersion")
+
+}

@@ -1,0 +1,261 @@
+{
+  "metadata": {
+    "schemaVersion": "1.0",
+    "importType": "LEX",
+    "importFormat": "JSON"
+  },
+  "resource": {
+    "name": "Bartender_Bot_X",
+    "version": "1",
+    "intents": [
+      {
+        "name": "OrderDrink",
+        "version": "1",
+        "fulfillmentActivity": {
+          "codeHook": {
+            "uri": "arn:aws:lambda:eu-west-1:<aws-account-id>:function:serverless-bartenderbot-dev-lexevent",
+            "messageVersion": "1.0"
+          },
+          "type": "CodeHook"
+        },
+        "sampleUtterances": [
+          "I want to order",
+          "I want to drink",
+          "I want {alcoholType}",
+          "I want {cocktailCategory}",
+          "I want to order {alcoholType}",
+          "I want to order {cocktailCategory}",
+          "I want to drink {alcoholType} {cocktailCategory}",
+          "Give me a drink",
+          "I would like to have",
+          "I would like to drink",
+          "I would like to order {alcoholType}",
+          "I would like to order {cocktailCategory}",
+          "I would like to drink {alcoholType}",
+          "I would like to drink {cocktailCategory}",
+          "I would like to order {alcoholType} {cocktailCategory}"
+        ],
+        "slots": [
+          {
+            "sampleUtterances": [],
+            "slotType": "AlcoholType",
+            "slotTypeVersion": "1",
+            "slotConstraint": "Required",
+            "valueElicitationPrompt": {
+              "messages": [
+                {
+                  "contentType": "PlainText",
+                  "content": "Would you like to drink an alcoholic beverage?"
+                }
+              ],
+              "responseCard": "{\"version\":1,\"contentType\":\"application/vnd.amazonaws.card.generic\",\"genericAttachments\":[]}",
+              "maxAttempts": 2
+            },
+            "priority": 1,
+            "name": "alcoholType"
+          },
+          {
+            "sampleUtterances": [
+              "I will have {cocktailCategory}",
+              "I will get {cocktailCategory}",
+              "I will order {cocktailCategory}",
+              "I would like to drink {cocktailCategory}",
+              "I would like to order {cocktailCategory}",
+              "I like {cocktailCategory}",
+              "I want {cocktailCategory}",
+              "I want to order {cocktailCategory}",
+              "Definitely {cocktailCategory}"
+            ],
+            "slotType": "CocktailCategory",
+            "slotTypeVersion": "1",
+            "slotConstraint": "Required",
+            "valueElicitationPrompt": {
+              "messages": [
+                {
+                  "contentType": "PlainText",
+                  "content": "What kind of cocktail would you like to drink?"
+                }
+              ],
+              "responseCard": "{\"version\":1,\"contentType\":\"application/vnd.amazonaws.card.generic\",\"genericAttachments\":[]}",
+              "maxAttempts": 2
+            },
+            "priority": 2,
+            "name": "cocktailCategory"
+          }
+        ],
+        "dialogCodeHook": {
+          "uri": "arn:aws:lambda:eu-west-1:<aws-account-id>:function:serverless-bartenderbot-dev-lexevent",
+          "messageVersion": "1.0"
+        }
+      },
+      {
+        "name": "Greetings",
+        "version": "1",
+        "fulfillmentActivity": {
+          "codeHook": {
+            "uri": "arn:aws:lambda:eu-west-1:<aws-account-id>:function:serverless-bartenderbot-dev-lexevent",
+            "messageVersion": "1.0"
+          },
+          "type": "CodeHook"
+        },
+        "sampleUtterances": [
+          "hi",
+          "hey",
+          "hola",
+          "hello"
+        ],
+        "slots": []
+      },
+      {
+        "name": "Info",
+        "version": "1",
+        "fulfillmentActivity": {
+          "codeHook": {
+            "uri": "arn:aws:lambda:eu-west-1:<aws-account-id>:function:serverless-bartenderbot-dev-lexevent",
+            "messageVersion": "1.0"
+          },
+          "type": "CodeHook"
+        },
+        "sampleUtterances": [
+          "Who are you",
+          "What do you do",
+          "I want to know you",
+          "Who the hell are you",
+          "I would like to know you",
+          "Tell me about yourself"
+        ],
+        "slots": []
+      }
+    ],
+    "slotTypes": [
+      {
+        "description": "Available cocktail categories",
+        "name": "CocktailCategory",
+        "version": "1",
+        "enumerationValues": [
+          {
+            "value": "SOFT_DRINK_SODA",
+            "synonyms": [
+              "Soft",
+              "Soda"
+            ]
+          },
+          {
+            "value": "COCKTAIL",
+            "synonyms": [
+              "Cocktail"
+            ]
+          },
+          {
+            "value": "ORDINARY_DRINK",
+            "synonyms": [
+              "Ordinary"
+            ]
+          },
+          {
+            "value": "HOMEMADE_LIQUEUR",
+            "synonyms": [
+              "Liqueur"
+            ]
+          },
+          {
+            "value": "COFFEE_TEA",
+            "synonyms": [
+              "Coffee",
+              "Tea"
+            ]
+          },
+          {
+            "value": "PUNCH_PARTY_DRINK",
+            "synonyms": [
+              "Punch",
+              "Party"
+            ]
+          },
+          {
+            "value": "MILK_FLOAT_SHAKE",
+            "synonyms": [
+              "Milk",
+              "Float",
+              "Shake"
+            ]
+          },
+          {
+            "value": "UNKNOWN",
+            "synonyms": [
+              "Unknown",
+              "Other"
+            ]
+          },
+          {
+            "value": "COCOA",
+            "synonyms": [
+              "Cocoa"
+            ]
+          },
+          {
+            "value": "SHOT",
+            "synonyms": [
+              "Shot"
+            ]
+          },
+          {
+            "value": "BEER",
+            "synonyms": [
+              "Beer"
+            ]
+          }
+        ],
+        "valueSelectionStrategy": "TOP_RESOLUTION"
+      },
+      {
+        "description": "Alcohol Type",
+        "name": "AlcoholType",
+        "version": "1",
+        "enumerationValues": [
+          {
+            "value": "OPTIONAL",
+            "synonyms": [
+              "any",
+              "don't know"
+            ]
+          },
+          {
+            "value": "NONALCOHOLIC",
+            "synonyms": [
+              "noalcohol"
+            ]
+          },
+          {
+            "value": "ALCOHOLIC",
+            "synonyms": [
+              "alcohol"
+            ]
+          }
+        ],
+        "valueSelectionStrategy": "TOP_RESOLUTION"
+      }
+    ],
+    "voiceId": "Salli",
+    "childDirected": false,
+    "locale": "en-US",
+    "idleSessionTTLInSeconds": 300,
+    "clarificationPrompt": {
+      "messages": [
+        {
+          "contentType": "PlainText",
+          "content": "Sorry, can you please repeat that?"
+        }
+      ],
+      "maxAttempts": 5
+    },
+    "abortStatement": {
+      "messages": [
+        {
+          "contentType": "PlainText",
+          "content": "Sorry, I could not understand. Goodbye."
+        }
+      ]
+    }
+  }
+}

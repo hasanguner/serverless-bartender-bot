@@ -1,0 +1,9 @@
+dependencies {
+    compile("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
+    compile("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion")
+
+    compile("com.amazonaws:aws-lambda-java-core:$awsLambdaCoreVersion")
+    compile("com.amazonaws:aws-lambda-java-events:$awsLambdaEventsVersion")
+
+    compile("io.symphonia:lambda-logging:1.0.0")
+}

@@ -1,0 +1,5 @@
+dependencies {
+    compile project(":bartenderbot-infrastructure")
+    compile project(":bartenderbot-abstractions-lambda")
+    compile project(":bartenderbot-messages")
+}

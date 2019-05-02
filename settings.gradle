@@ -1,0 +1,10 @@
+rootProject.name = 'serverless-bartenderbot'
+include 'bartenderbot-abstractions-lambda'
+include 'bartenderbot-domain'
+include 'bartenderbot-infrastructure'
+include 'bartenderbot-host-lambda'
+include 'bartenderbot-messages'
+include 'bartenderbot-common'
+include 'bartenderbot-handlers'
+include 'bartenderbot-abstractions-lex'
+
