@@ -1,8 +1,8 @@
 # Serverless Bartender Bot
  
-`Serverless Bartender Bot` is a chat-bot which is powered by `Amazon Lex` and built on top of a `Serverless Architecture`.
+![](./img/convs.jpg)
 
-![](./img/sls-bartenderbot-drw1.svg)
+`Serverless Bartender Bot` is a chat-bot which is powered by `Amazon Lex` and built on top of a `Serverless Architecture`.
 
 ## Build Project
 You can build the project and create a fat jar.
@@ -11,6 +11,8 @@ You can build the project and create a fat jar.
 ```
 
 ## Installation & Deployment
+
+![](./img/sls-bartenderbot-drw1.svg)
 
 #### Build Infrastructure
 
