@@ -90,7 +90,7 @@ You will get the following response.
 Tho bot is designed to fetch cocktails from DynamoDB, so we need to seed DynamoDB with cocktails.
 Previously, I've developed a scrapper [Cocktail Fetcher](https://github.com/hasanguner/cocktail-fetcher) to help you to have a Cocktail DB.
 
-First, run the followinng command to get service information.
+First, run the following command to get service information.
 ```
 sls info
 ```
